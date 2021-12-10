@@ -16,15 +16,15 @@ export const ${name} = createAction({
 
 export const create = createAction({
   name: 'create',
-  args: { name: { type: String } },
+  args: { name: { type: String, required: true } },
   description: '创建新的命令',
   action({ name }) {
     const filename = path.join(process.cwd(), 'src/modules', `${name}.ts`);
-    console.log(filename)
+    console.log(filename);
     if (fs.existsSync(filename)) {
       console.log(chalk.red(`${name}.ts 已存在！`));
       return;
     }
-    fs.writeFileSync(filename, template(name))
+    fs.writeFileSync(filename, template(name));
   },
 });
