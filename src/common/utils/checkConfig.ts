@@ -18,3 +18,12 @@ export function checkConfig(): Record<string, any> {
   }
   return initConfig();
 }
+
+export function updateConfig(key: string, value: any) {
+  const config = checkConfig();
+  config[key] = value;
+
+  fs.writeFileSync(SVYRC, JSON.stringify(config));
+
+  return [config[key], config];
+}

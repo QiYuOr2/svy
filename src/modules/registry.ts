@@ -1,7 +1,6 @@
 import { execSync } from 'child_process';
 import chalk from 'chalk';
-import { createAction } from '../common/utils';
-import { checkConfig } from '@/common/utils/checkConfig';
+import { createAction, checkConfig, updateConfig } from '../common/utils';
 
 const readRegistryConfig = () => {
   return checkConfig().registryList;
@@ -21,8 +20,20 @@ const list = () => {
   });
 };
 
+const addRegistry = (registryList: Record<string, string>, key: string, val: string) => {
+  registryList[key] = val;
+  return updateConfig('registryList', registryList)[0]
+};
+
 const setRegistry = (name: string) => {
-  const registryList = readRegistryConfig();
+  let registryList = readRegistryConfig();
+
+  if (name.includes('=')) {
+    const [key, val] = name.split('=');
+    registryList = addRegistry(registryList, key, val);
+    name = key
+  }
+
   if (!Object.keys(registryList).includes(name)) {
     console.log(chalk.red('\n未找到对应源'));
     return;
@@ -41,7 +52,8 @@ export const registry = createAction({
   args: {
     name: { type: String },
   },
-  description: 'svy registry 查看所有源; svy registry <name> 切换对应源',
+  description:
+    'svy registry 查看所有源\nsvy registry <name> 切换对应源\nsvy registry taobao=https://registry.npmmirror.com/ 添加或修改源',
   action({ name }) {
     name === 'undefined' ? list() : setRegistry(name);
     console.log('\n');
