@@ -1,13 +1,49 @@
-import { createAction } from '@/common';
+import { execSync } from 'child_process';
+import chalk from 'chalk';
+import { createAction } from '../common/utils';
+import { checkConfig } from '@/common/utils/checkConfig';
+
+const readRegistryConfig = () => {
+  return checkConfig().registryList;
+};
+
+const list = () => {
+  const registryList = readRegistryConfig();
+  const currentRegistry = execSync('npm config get registry').toString('utf-8').trim();
+
+  Object.keys(registryList).forEach((key) => {
+    const registry = registryList[key];
+    if (registry === currentRegistry) {
+      console.log(chalk.green(`\n> ${key} - ${registry}`));
+    } else {
+      console.log(`\n- ${key} - ${registry}`);
+    }
+  });
+};
+
+const setRegistry = (name: string) => {
+  const registryList = readRegistryConfig();
+  if (!Object.keys(registryList).includes(name)) {
+    console.log(chalk.red('\n未找到对应源'));
+    return;
+  } else {
+    try {
+      execSync(`npm config set registry ${registryList[name]}`);
+      console.log(`\n已切换为 ${chalk.green(name)} 源: ${registryList[name]}`);
+    } catch (error) {
+      console.log(chalk.red(error));
+    }
+  }
+};
 
 export const registry = createAction({
   name: 'registry',
   args: {
-    label: { type: String, required: true },
-    source: { type: Number },
+    name: { type: String },
   },
-  description: '切换NPM仓库',
-  action({ label, source }) {
-    console.log(label, source);
+  description: 'svy registry 查看所有源; svy registry <name> 切换对应源',
+  action({ name }) {
+    name === 'undefined' ? list() : setRegistry(name);
+    console.log('\n');
   },
 });
