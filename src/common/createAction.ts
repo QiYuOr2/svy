@@ -34,7 +34,7 @@ export function createAction<ArgType>(options: Options<ArgType>) {
       Object.keys(options.args).forEach((argv, i) => {
         isString(options.args[argv as keyof ArgType].type()) && (params[argv] = String(args[i]));
         isNumber(options.args[argv as keyof ArgType].type()) && (params[argv] = Number(args[i]));
-        isBoolean(options.args[argv as keyof ArgType].type()) && (params[argv] = Boolean(args[i]));
+        isBoolean(options.args[argv as keyof ArgType].type()) && (params[argv] = args[i] === 'true');
       });
       options.action(params as ArgType);
     },
