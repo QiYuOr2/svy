@@ -1,0 +1,24 @@
+lockfileVersion: 5.3
+
+specifiers:
+  commander: ^8.3.0
+  typescript: ^4.5.2
+
+dependencies:
+  commander: 8.3.0
+
+devDependencies:
+  typescript: 4.5.2
+
+packages:
+
+  /commander/8.3.0:
+    resolution: {integrity: sha1-SDfqGy2me5xhamevuw+v7lZ7ymY=, tarball: commander/download/commander-8.3.0.tgz}
+    engines: {node: '>= 12'}
+    dev: false
+
+  /typescript/4.5.2:
+    resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==, tarball: typescript/download/typescript-4.5.2.tgz}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true

@@ -1,0 +1,26 @@
+{
+  "name": "svy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QiYuOr2/svy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/QiYuOr2/svy/issues"
+  },
+  "homepage": "https://github.com/QiYuOr2/svy#readme",
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "commander": "^8.3.0"
+  }
+}
