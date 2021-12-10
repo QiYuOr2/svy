@@ -1,11 +1,14 @@
 import { Command } from 'commander';
-import { registry } from './modules';
+import path from 'path';
 import pkg from '../package.json';
+import { buklImport } from './common/utils';
 
 const program = new Command();
 
 program.version(pkg.version);
 
-program.command(registry.optionsStr).description(registry.description).action(registry.action);
+buklImport(path.join(__dirname, './modules')).map((command) => {
+  program.command(command.optionsStr).description(command.description).action(command.action);
+});
 
 program.parse();
