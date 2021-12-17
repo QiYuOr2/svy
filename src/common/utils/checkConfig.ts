@@ -7,6 +7,7 @@ function initConfig() {
       npm: 'https://registry.npmjs.org/',
       taobao: 'https://registry.npmmirror.com/',
     },
+    gitConfigList: {},
   };
   fs.writeFileSync(SVYRC, JSON.stringify(config));
   return config;

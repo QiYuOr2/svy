@@ -1,12 +1,12 @@
 import path from 'path';
 import fs from 'fs-extra';
 import chalk from 'chalk';
-import { createAction } from '../common/utils';
+import { createAction, transferName } from '../common/utils';
 
 const template = (name: string) => `
 import { createAction } from '../common/utils';
 
-export const ${name} = createAction({
+export const ${transferName(name)} = createAction({
   name: '${name}',
   args: { name: { type: String } },
   description: '创建新的命令',
