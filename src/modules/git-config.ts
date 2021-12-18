@@ -89,7 +89,7 @@ const actionMap = {
 export const gitConfig = createAction({
   name: 'git-config',
   args: { name: { type: String }, value: { type: String } },
-  description: 'svy git-config 查看git仓库配置的用户名和邮箱',
+  description: 'svy git-config 查看git仓库配置的用户名和邮箱\nsvy git-config set:<key> name=xxxx 添加预设的用户名\nsvy git-config set:<key> email=xxxxx 添加预设的邮箱\nsvy git-config use <key> 使用预设的用户名和邮箱\nsvy git-config preset 查看所有预设',
   action({ name, value }) {
     name = isUndefined(name) ? 'get' : name;
     if (name.indexOf(':') !== -1) {
