@@ -25,6 +25,8 @@ export function updateConfig(key: string, value: any) {
   config[key] = value;
 
   fs.writeFileSync(SVYRC, JSON.stringify(config));
+  
+  console.log(SVYRC)
 
   return [config[key], config];
 }
