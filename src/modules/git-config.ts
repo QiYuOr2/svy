@@ -25,16 +25,29 @@ const actionMap = {
     });
   },
 
+  set: (key?: string, value?: string) => {
+    // svy git-config set:github name=qiyuor2
+    // svy git-config set:github email=xxxx.com
+    if (value) {
+      const [k, v] = value.split('=');
+    }
+  },
+
   use: (key?: string) => {},
 };
 
 export const gitConfig = createAction({
   name: 'git-config',
-  args: { name: { type: String } },
+  args: { name: { type: String }, value: { type: String } },
   description: 'svy git-config 查看git仓库配置的用户名和邮箱',
-  action({ name }) {
+  action({ name, value }) {
     name = isUndefined(name) ? 'get' : name;
-    actionMap[name as keyof typeof actionMap]();
+    if (name.indexOf(':')) {
+      const [actionKey, k] = name.split(':');
+      actionMap[actionKey as keyof typeof actionMap](k, value);
+    } else {
+      actionMap[name as keyof typeof actionMap]();
+    }
     console.log('\n');
   },
 });
