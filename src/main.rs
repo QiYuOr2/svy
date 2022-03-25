@@ -42,6 +42,6 @@ fn main() {
     let cli = Cli::parse();
 
     match &cli.command {
-        Commands::Registry(list) => list.exec(),
+        Commands::Registry(registry) => registry.exec(),
     };
 }
