@@ -12,6 +12,15 @@ struct Cli {
 enum Commands {
     /// 切换npm源 svy registry [NAME] [--list|-l]
     Registry(Registry),
+
+    /// 创建模板
+    Create(Template),
+
+    /// 修改Git配置
+    Git(Git),
+
+    /// 检查当前目录是否有敏感信息
+    Check,
 }
 
 #[derive(Args)]
@@ -23,6 +32,12 @@ struct Registry {
     /// 切换对应源
     name: Option<String>,
 }
+
+#[derive(Args)]
+struct Git {}
+
+#[derive(Args)]
+struct Template {}
 
 impl Registry {
     fn exec(&self) {
@@ -43,5 +58,8 @@ fn main() {
 
     match &cli.command {
         Commands::Registry(registry) => registry.exec(),
+        Commands::Create(_) => {},
+        Commands::Git(_) => {},
+        Commands::Check => {}
     };
 }
