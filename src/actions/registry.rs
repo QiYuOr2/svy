@@ -1,3 +1,6 @@
+//! Npm 源处理
+
+use crate::common::Svy;
 use clap::Args;
 
 #[derive(Args)]
@@ -11,10 +14,10 @@ pub struct Registry {
 }
 
 impl Registry {
-    pub fn exec(&self) {
+    pub fn exec(&self, svy: &Svy) {
         // 含有`--list`时，查询所有源
         if self.list == true {
-            println!("registry list");
+            svy.list_registry();
             return;
         }
         // 切换源

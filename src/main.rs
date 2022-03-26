@@ -1,9 +1,9 @@
 mod actions;
 mod commands;
+mod common;
 
-use crate::commands::Commands;
 use clap::Parser;
-// use std::path::PathBuf;
+use commands::Commands;
 
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
@@ -15,10 +15,17 @@ struct Cli {
 fn main() {
     let cli = Cli::parse();
 
-    match &cli.command {
-        Commands::Registry(registry) => registry.exec(),
-        Commands::Create(_) => {}
-        Commands::Git(_) => {}
-        Commands::Check => {}
-    };
+    let config = common::check_config();
+
+    match config {
+        Ok(svy) => {
+            match &cli.command {
+                Commands::Registry(registry) => registry.exec(&svy),
+                Commands::Create(_) => {}
+                Commands::Git(_) => {}
+                Commands::Check => {}
+            };
+        }
+        Err(_) => {}
+    }
 }
