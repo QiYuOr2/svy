@@ -23,7 +23,7 @@ fn main() {
                 Commands::Registry(registry) => registry.exec(&svy),
                 Commands::Create(_) => {}
                 Commands::Git(_) => {}
-                Commands::Check => {}
+                Commands::Check { keywords } => actions::check(keywords).unwrap(),
             };
         }
         Err(_) => {}

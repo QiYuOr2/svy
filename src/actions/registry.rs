@@ -24,8 +24,11 @@ impl Registry {
         }
         // 切换源
         if let Some(name) = &self.name {
-            self.change(svy, name)
+            self.change(svy, name);
+            return;
         }
+        // 默认为list操作
+        self.list(svy);
     }
 
     fn list(&self, svy: &Svy) {
