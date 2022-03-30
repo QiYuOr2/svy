@@ -2,6 +2,7 @@ mod git;
 mod registry;
 mod template;
 
+use crate::common::constants::IGNORE_EXT;
 use crate::common::utils::{match_regex, regex_from_string};
 use colored::Colorize;
 use std::{env::current_dir, fs, io::Result, str};
@@ -34,7 +35,10 @@ fn check_file_content(path: &str, keywords: &Vec<String>) -> Result<bool> {
     let file = fs::read(path)?;
 
     let content = match str::from_utf8(&file) {
-        Err(error) => panic!("读取 {} 失败 {}", path, error),
+        Err(_) => {
+            println!("=> 读取 {} 失败", path);
+            ""
+        }
         Ok(value) => value,
     };
 
@@ -50,6 +54,8 @@ pub fn check(keywords: &Vec<String>) -> Result<()> {
     let mut ignore = read_ignore()?;
     ignore.push(".git".to_string());
     ignore.push(".DS_Store".to_string());
+    // 忽略一些特定格式的文件
+    IGNORE_EXT.iter().for_each(|i| ignore.push(i.to_string()));
 
     let mut has_warn = false;
 
