@@ -18,9 +18,9 @@ fn main() {
     let config = common::check_config();
 
     match config {
-        Ok(svy) => {
+        Ok(mut svy) => {
             match &cli.command {
-                Commands::Registry(registry) => registry.exec(&svy),
+                Commands::Registry(registry) => registry.exec(&mut svy),
                 Commands::Create(_) => {}
                 Commands::Git(_) => {}
                 Commands::Check { keywords } => actions::check(keywords).unwrap(),

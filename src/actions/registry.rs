@@ -7,6 +7,10 @@ use std::process::Command;
 
 #[derive(Args)]
 pub struct Registry {
+    /// 添加源
+    #[clap(short = 'a', long = "add")]
+    pub key: Option<String>,
+
     /// 查询所有源
     #[clap(short, long)]
     pub list: bool,
@@ -16,7 +20,7 @@ pub struct Registry {
 }
 
 impl Registry {
-    pub fn exec(&self, svy: &Svy) {
+    pub fn exec(&self, svy: &mut Svy) {
         // 含有`--list`时，查询所有源
         if self.list == true {
             self.list(svy);
@@ -24,6 +28,11 @@ impl Registry {
         }
         // 切换源
         if let Some(name) = &self.name {
+            // 如果有key，添加源
+            if self.key.is_some() {
+                self.add(svy, name, &self.key.as_ref().unwrap());
+                return;
+            }
             self.change(svy, name);
             return;
         }
@@ -73,6 +82,11 @@ impl Registry {
         }
 
         println!("\n成功切换到 [{}]", name.green());
+        self.list(svy);
+    }
+
+    fn add(&self, svy: &mut Svy, key: &String, value: &String) {
+        svy.update_registry(key, value);
         self.list(svy);
     }
 }

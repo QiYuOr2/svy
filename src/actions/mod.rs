@@ -2,8 +2,8 @@ mod git;
 mod registry;
 mod template;
 
+use crate::common::utils::{match_regex, regex_from_string};
 use colored::Colorize;
-use regex::Regex;
 use std::{env::current_dir, fs, io::Result, str};
 use walkdir::WalkDir;
 
@@ -64,7 +64,7 @@ pub fn check(keywords: &Vec<String>) -> Result<()> {
 
             if ignore
                 .iter()
-                .any(|i| Regex::new(i).unwrap().is_match(&file_name))
+                .any(|i| match_regex(regex_from_string(i), &file_name))
             {
                 continue;
             }

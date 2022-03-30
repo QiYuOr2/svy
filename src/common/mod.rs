@@ -2,7 +2,7 @@
 
 mod constants;
 mod svy;
-mod utils;
+pub mod utils;
 
 use constants::SVYRC;
 use serde_json::Result;
@@ -38,8 +38,32 @@ pub fn check_config() -> Result<Svy> {
         }
         let content = fs::read_to_string(&path).unwrap();
 
-        let config: Svy = serde_json::from_str(utils::string_to_static_str(content))?;
+        let config = serde_json::from_str(&content)?;
         return Ok(config);
+    }
+    panic!("$HOME获取失败")
+}
+
+/// 写入配置文件
+pub fn write_config(svy: &Svy) -> Result<()> {
+    let json = serde_json::to_string(svy)?;
+
+    if let Some(mut path) = dirs::home_dir() {
+        path.push(SVYRC);
+        // 不存在 -> 创建一个配置文件
+        if !utils::file_exist(&path) {
+            match File::create(&path) {
+                Err(error) => panic!("配置文件创建失败 {}: {}", &path.display(), error),
+                Ok(_) => (),
+            };
+        }
+
+        match fs::write(&path, json.as_bytes()) {
+            Err(error) => panic!("配置文件写入失败 {}: {}", &path.display(), error),
+            Ok(_) => (),
+        };
+
+        return Ok(());
     }
     panic!("$HOME获取失败")
 }
