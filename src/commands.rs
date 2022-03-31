@@ -14,7 +14,7 @@ pub enum Commands {
     Git(Git),
 
     /// 检查当前目录是否有敏感信息
-    /// 
+    ///
     /// example: $ svy check password database
     Check { keywords: Vec<String> },
 }

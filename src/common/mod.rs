@@ -1,24 +1,16 @@
 //! 通用处理
 
-mod svy;
 pub mod constants;
+mod svy;
 pub mod utils;
 
-use constants::SVYRC;
+use constants::{BASIC_CONFIG, SVYRC};
 use serde_json::Result;
 use std::{
     fs::{self, File},
     io::Write,
 };
 pub use svy::Svy;
-
-const BASIC_CONFIG: &str = r#"{
-    "registry": {
-        "npm":"https://registry.npmjs.org/",
-        "taobao":"https://registry.npmmirror.com/"
-    },
-    "git": {}
-}"#;
 
 /// 检查配置文件，没有则自动创建
 pub fn check_config() -> Result<Svy> {

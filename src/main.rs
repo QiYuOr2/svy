@@ -20,10 +20,10 @@ fn main() {
     match config {
         Ok(mut svy) => {
             match &cli.command {
-                Commands::Registry(registry) => registry.exec(&mut svy),
-                Commands::Create(_) => {}
-                Commands::Git(_) => {}
                 Commands::Check { keywords } => actions::check(keywords).unwrap(),
+                Commands::Create(_) => {}
+                Commands::Git(action) => action.exec(&mut svy),
+                Commands::Registry(action) => action.exec(&mut svy),
             };
         }
         Err(_) => {}

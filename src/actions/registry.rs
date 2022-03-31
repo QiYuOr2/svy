@@ -8,7 +8,7 @@ use std::process::Command;
 #[derive(Args)]
 pub struct Registry {
     /// 添加源
-    #[clap(short = 'a', long = "add")]
+    #[clap(short = 's', long = "set")]
     pub key: Option<String>,
 
     /// 查询所有源
@@ -30,7 +30,7 @@ impl Registry {
         if let Some(name) = &self.name {
             // 如果有key，添加源
             if self.key.is_some() {
-                self.add(svy, name, &self.key.as_ref().unwrap());
+                self.set(svy, name, &self.key.as_ref().unwrap());
                 return;
             }
             self.change(svy, name);
@@ -85,7 +85,7 @@ impl Registry {
         self.list(svy);
     }
 
-    fn add(&self, svy: &mut Svy, key: &String, value: &String) {
+    fn set(&self, svy: &mut Svy, key: &String, value: &String) {
         svy.update_registry(key, value);
         self.list(svy);
     }
