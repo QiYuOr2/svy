@@ -42,12 +42,18 @@ impl Registry {
 
     fn list(&self, svy: &Svy) {
         // 获取当前使用的源
-        let output = Command::new("npm")
+        let npm = if cfg!(target_os = "window") {
+            "npm"
+        } else {
+            "npm.cmd"
+        };
+        let output = Command::new(npm)
             .arg("config")
             .arg("get")
             .arg("registry")
             .output()
             .expect("npm registry获取失败");
+
         let result = String::from_utf8(output.stdout).unwrap();
 
         println!("");
@@ -62,12 +68,18 @@ impl Registry {
     }
 
     fn change(&self, svy: &Svy, name: &String) {
+        let npm = if cfg!(target_os = "window") {
+            "npm"
+        } else {
+            "npm.cmd"
+        };
+
         if !svy.registry.keys().any(|k| k == name) {
             println!("未找到 name 为 {} 的源地址", name);
             return;
         }
 
-        let output = Command::new("npm")
+        let output = Command::new(npm)
             .arg("config")
             .arg("set")
             .arg("registry")
