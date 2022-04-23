@@ -1,6 +1,6 @@
 //! Npm 源处理
 
-use crate::common::Svy;
+use crate::common::{constants::NPM, Svy};
 use clap::Args;
 use colored::Colorize;
 use std::process::Command;
@@ -42,12 +42,7 @@ impl Registry {
 
     fn list(&self, svy: &Svy) {
         // 获取当前使用的源
-        let npm = if cfg!(target_os = "window") {
-            "npm"
-        } else {
-            "npm.cmd"
-        };
-        let output = Command::new(npm)
+        let output = Command::new(NPM)
             .arg("config")
             .arg("get")
             .arg("registry")
@@ -68,18 +63,12 @@ impl Registry {
     }
 
     fn change(&self, svy: &Svy, name: &String) {
-        let npm = if cfg!(target_os = "window") {
-            "npm"
-        } else {
-            "npm.cmd"
-        };
-
         if !svy.registry.keys().any(|k| k == name) {
             println!("未找到 name 为 {} 的源地址", name);
             return;
         }
 
-        let output = Command::new(npm)
+        let output = Command::new(NPM)
             .arg("config")
             .arg("set")
             .arg("registry")
