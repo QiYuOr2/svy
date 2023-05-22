@@ -59,27 +59,27 @@ impl Git {
 
         println!();
         for config in &svy.git {
-            if name_output.trim() == config.1.name && email_output.trim() == config.1.email {
+            if name_output.trim() == config.1.username && email_output.trim() == config.1.email {
                 println!(
                     "* {:6}\t[{}] <{}>",
                     config.0.green(),
-                    config.1.name.green(),
+                    config.1.username.green(),
                     config.1.email.green()
                 );
                 continue;
             }
-            println!("- {:6}\t[{}] <{}>", config.0, config.1.name, config.1.email)
+            println!("- {:6}\t[{}] <{}>", config.0, config.1.username, config.1.email)
         }
         println!();
     }
 
     fn change(&self, svy: &Svy, name: &String) {
         if let Some(config) = svy.git.get(name) {
-            let name_output = utils::set_git_config("user.name", &config.name);
-            let emial_output = utils::set_git_config("user.email", &config.email);
+            let name_output = utils::set_git_config("user.name", &config.username);
+            let email_output = utils::set_git_config("user.email", &config.email);
 
             println!();
-            if name_output.trim().len() == 0 && emial_output.trim().len() == 0 {
+            if name_output.trim().len() == 0 && email_output.trim().len() == 0 {
                 println!("[{}] 切换成功\n", name.green());
                 return;
             }

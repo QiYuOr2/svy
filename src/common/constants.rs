@@ -13,8 +13,9 @@ pub const BASIC_CONFIG: &str = r#"{
   "git": {}
 }"#;
 
-pub const NPM: &str = if cfg!(target_os = "window") {
-    "npm"
-} else {
-    "npm.cmd"
-};
+// pub const NPM: &str = if cfg!(target_os = "window") {
+//     "npm"
+// } else {
+//     "npm.cmd"
+// };
+pub const NPM: &str = "npm";

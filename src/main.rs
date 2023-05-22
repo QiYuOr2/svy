@@ -26,6 +26,6 @@ fn main() {
                 Commands::Registry(action) => action.exec(&mut svy),
             };
         }
-        Err(_) => {}
+        Err(error) => panic!("{}", error),
     }
 }

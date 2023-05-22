@@ -1,27 +1,27 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use super::write_config;
 
 #[derive(Serialize, Deserialize)]
 pub struct Git {
-    pub name: String,
+    pub username: String,
     pub email: String,
 }
 
 impl Git {
-    fn new(name: String, email: String) -> Self {
-        Git { name, email }
+    fn new(username: String, email: String) -> Self {
+        Git { username, email }
     }
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Svy {
     /// npm源
-    pub registry: HashMap<String, String>,
+    pub registry: BTreeMap<String, String>,
 
     /// git配置
-    pub git: HashMap<String, Git>,
+    pub git: BTreeMap<String, Git>,
 }
 
 impl Svy {
@@ -37,7 +37,7 @@ impl Svy {
     pub fn update_git_email(&mut self, key: &String, email: &String) {
         let config = match self.git.get_mut(key) {
             Some(git) => {
-                let _git = Git::new(git.name.to_string(), email.to_string());
+                let _git = Git::new(git.username.to_string(), email.to_string());
                 self.git.remove(key);
                 _git
             }
