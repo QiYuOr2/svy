@@ -39,7 +39,7 @@ impl Registry {
         // 默认为list操作
         self.list(svy);
     }
-
+    
     fn list(&self, svy: &Svy) {
         // 获取当前使用的源
         let output = Command::new(NPM)
@@ -74,7 +74,7 @@ impl Registry {
             .arg("registry")
             .arg(svy.registry.get(name).unwrap())
             .output()
-            .expect("npm registry切换失败");
+            .expect("npm registry 切换失败");
 
         let result = String::from_utf8(output.stdout).unwrap();
         if result.trim() != "" {

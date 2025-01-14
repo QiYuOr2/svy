@@ -2,6 +2,8 @@ use std::{fs::File, path::Path, process::Command};
 
 use regex::Regex;
 
+use super::constants::GIT;
+
 pub fn file_exist<P: AsRef<Path>>(path: P) -> bool {
     let file = File::open(path);
     match file {
@@ -26,7 +28,7 @@ pub fn match_regex(regex: Option<Regex>, text: &String) -> bool {
 
 pub fn git_config(item: &str) -> String {
     String::from_utf8(
-        Command::new("git")
+        Command::new(GIT)
             .arg("config")
             .arg(item)
             .output()
@@ -38,7 +40,7 @@ pub fn git_config(item: &str) -> String {
 
 pub fn set_git_config(item: &str, value: &str) -> String {
     String::from_utf8(
-        Command::new("git")
+        Command::new(GIT)
             .arg("config")
             .arg(item)
             .arg(value)
